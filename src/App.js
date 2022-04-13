@@ -1,23 +1,38 @@
-import logo from './logo.svg';
 import './App.css';
+import axios from 'axios';
+import { useState } from "react"
+import React from 'react';
 
 function App() {
+  // state qui va contenir la citation
+  const [sentence, setSentence] = useState("");
+
+  // fonction qui va chercher dans l'api les citations
+  const getQuote = () => {
+    // axios
+    // get
+    // res (response)
+    // data
+
+    axios
+      .get("https://simpsons-quotes-api.herokuapp.com/quotes?count=2")
+      .then((res) => res.data)
+      //.then((res) => res.data) // all good
+      .then((data) => data[0])
+      .then((data) => setSentence(data))
+      .catch((err) => console.log(err)); // il y a eu une erreur
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {/* Bouton qui va appeler la fonction d'appel api The Simpsons Quote API*/}
+      <button type="button" onClick={getQuote}>
+        Générer une citation
+      </button>
+
+      <p>{sentence.quote}</p>
+      <p> {sentence.character}</p>
+      <img src={sentence.image} alt=""></img>
     </div>
   );
 }
